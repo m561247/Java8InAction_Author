@@ -3,6 +3,9 @@ package lambdasinaction.chap5;
 import java.util.*;
 import java.util.function.IntSupplier;
 import java.util.stream.*;
+import static java.util.stream.Collectors.toList;
+import lambdasinaction.chap4.Dish;
+
 import java.nio.charset.Charset;
 import java.nio.file.*;
 
@@ -66,13 +69,25 @@ public class BuildingStreams {
               };
          IntStream.generate(fib).limit(10).forEach(System.out::println);
 
-         long uniqueWords = Files.lines(Paths.get("lambdasinaction/chap5/data.txt"), Charset.defaultCharset())
+         long uniqueWords = Files.lines(Paths.get("C:\\ThinkingInJava_workspace\\J8InAction\\src\\main\\resources\\lambdasinaction\\chap5\\data.txt"), Charset.defaultCharset())
                                  .flatMap(line -> Arrays.stream(line.split(" ")))
                                  .distinct()
                                  .count();
 
          System.out.println("There are " + uniqueWords + " unique words in data.txt");
-
-
+         final List<Dish> menu = Arrays.asList(
+        		new Dish("pork", false, 800, Dish.Type.MEAT),
+     			new Dish("beef", false, 700, Dish.Type.MEAT), 
+     			new Dish("chicken", false, 400, Dish.Type.MEAT),
+     			new Dish("french fries", true, 530, Dish.Type.OTHER), 
+     			new Dish("rice", true, 350, Dish.Type.OTHER),
+     			new Dish("season fruit", true, 120, Dish.Type.OTHER), 
+     			new Dish("pizza", true, 550, Dish.Type.OTHER),
+     			new Dish("prawns", false, 400, Dish.Type.FISH), 
+     			new Dish("salmon", false, 450, Dish.Type.FISH));
+         List<Dish> vegetarianDishes = menu.stream()
+        		 						   .filter(Dish::isVegetarian)
+        		 						   .collect(toList());
+         System.out.println("vegetarianDishes = " + vegetarianDishes);
     }
 }

@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 public class PuttingIntoPractice{
     public static void main(String ...args){    
         Trader raoul = new Trader("Raoul", "Cambridge");
-        Trader mario = new Trader("Mario","Milan");
+        Trader mario = new Trader("Mario","Cambridge");
         Trader alan = new Trader("Alan","Cambridge");
         Trader brian = new Trader("Brian","Cambridge");
 		
@@ -51,7 +51,7 @@ public class PuttingIntoPractice{
         System.out.println(traders);
         
         
-        // Query 4: Return a string of all traders’ names sorted alphabetically.
+        // Query 4: Return a string of all traders�� names sorted alphabetically.
         
         String traderStr = 
             transactions.stream()
@@ -62,12 +62,12 @@ public class PuttingIntoPractice{
         System.out.println(traderStr);
         
         // Query 5: Are there any trader based in Milan?
-        
+        System.out.println("Query5 : ");
         boolean milanBased =
             transactions.stream()
-                        .anyMatch(transaction -> transaction.getTrader()
+                        .noneMatch(transaction -> transaction.getTrader()
                                                             .getCity()
-                                                            .equals("Milan")
+                                                            .equals("1")
                                  );
         System.out.println(milanBased);
         

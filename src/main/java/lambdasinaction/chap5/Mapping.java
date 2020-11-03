@@ -22,7 +22,14 @@ public class Mapping{
                                          .map(String::length)
                                          .collect(toList());
         System.out.println(wordLengths);
-
+        System.out.println("­ì¥»ªº words = " + words);
+        // Incorrect map
+        words.stream()
+        	 .map(word -> word.split(""))
+        	 .distinct()
+        	 .collect(toList());
+        System.out.println("Incorrect map = " + words);
+        
         // flatMap
         words.stream()
                  .flatMap((String line) -> Arrays.stream(line.split("")))
@@ -35,10 +42,29 @@ public class Mapping{
         List<int[]> pairs =
                         numbers1.stream()
                                 .flatMap((Integer i) -> numbers2.stream()
-                                                       .map((Integer j) -> new int[]{i, j})
-                                 )
+                                                       			.map((Integer j) -> new int[]{i, j}))
                                 .filter(pair -> (pair[0] + pair[1]) % 3 == 0)
                                 .collect(toList());
         pairs.forEach(pair -> System.out.println("(" + pair[0] + ", " + pair[1] + ")"));
+    
+    
+        // Quiz 1
+        List<Integer> quiz = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> squares = quiz.stream()
+        							.map(i -> i * i)
+        							.collect(toList());
+        System.out.println(squares);
+        
+        // Quiz 2
+        List<Integer> numbers = Arrays.asList(1, 2, 3);
+        List<Integer> numberss = Arrays.asList(3, 4);
+        List<int[]> pair = numbers.stream()
+        							.flatMap((Integer i) -> numberss.stream()
+        															.map((Integer j) -> new int[] {i, j})
+        									)
+        							.collect(toList());
+        pair.forEach(i -> System.out.println("(" + i[0] + ", " + i[1] + ")"));
+
     }
+    
 }
