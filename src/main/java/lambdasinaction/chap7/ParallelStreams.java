@@ -33,13 +33,13 @@ public class ParallelStreams {
         LongStream.rangeClosed(1, n).forEach(accumulator::add);
         return accumulator.total;
     }
-
+    // ·|³y¦¨ race condition
     public static long sideEffectParallelSum(long n) {
         Accumulator accumulator = new Accumulator();
         LongStream.rangeClosed(1, n).parallel().forEach(accumulator::add);
         return accumulator.total;
     }
-
+    
     public static class Accumulator {
         private long total = 0;
 

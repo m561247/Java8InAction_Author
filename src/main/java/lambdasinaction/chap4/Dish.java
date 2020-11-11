@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 public class Dish {
 
@@ -97,8 +99,14 @@ public class Dish {
 		System.out.println("lowCaloricDishesName3 = " + lowCaloricDishesName3);
 		
 		// findAny
-		
-	
+		Optional<Dish> dish = menu.stream()
+								  .filter(Dish::isVegetarian)
+								  .findAny();
+		System.out.println(dish);
+		int count = menu.stream()
+						.map(d -> 1)
+						.reduce(0, (a, b) -> a + b);
+		System.out.println("count = " + count);
 	}
 
 }

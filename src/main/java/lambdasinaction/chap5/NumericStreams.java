@@ -14,7 +14,7 @@ public class NumericStreams{
 
         Arrays.stream(numbers.toArray()).forEach(System.out::println);
         int calories = menu.stream()
-                           .mapToInt(Dish::getCalories)
+                           .mapToInt(Dish::getCalories) // ¦^¶Ç IntStream
                            .sum();
         System.out.println("Number of calories:" + calories);
 
@@ -24,21 +24,22 @@ public class NumericStreams{
                                       .mapToInt(Dish::getCalories)
                                       .max();
 
-        int max;
-        if(maxCalories.isPresent()){
-            max = maxCalories.getAsInt();
-        }
-        else {
-            // we can choose a default value
-            max = 1;
-        }
-        System.out.println(max);
+//        int max;
+//        if(maxCalories.isPresent()){
+//            max = maxCalories.getAsInt();
+//        }
+//        else {
+//            // we can choose a default value
+//            max = 1;
+//        }
+        int max = maxCalories.orElse(1);
+        System.out.println("max = " + max);
 
         // numeric ranges
         IntStream evenNumbers = IntStream.rangeClosed(1, 100)
                                  .filter(n -> n % 2 == 0);
 
-        System.out.println(evenNumbers.count());
+        System.out.println("evenNumbers.count() = " + evenNumbers.count());
 
         Stream<int[]> pythagoreanTriples =
                IntStream.rangeClosed(1, 100).boxed()
@@ -47,9 +48,19 @@ public class NumericStreams{
                                                .map(b -> new int[]{a, b, (int) Math.sqrt(a * a + b * b)}));       
 
         pythagoreanTriples.forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2])); 
-
+        
+        // better version
+        Stream<double[]> pythagoreanTriples2 = 
+        		IntStream.rangeClosed(1, 100).boxed()
+        				 .flatMap(a -> IntStream.rangeClosed(a, 100)
+        						 				.mapToObj(b -> new double[] {a, b, Math.sqrt(a * a + b * b)})
+        						 				.filter(t -> t[2] % 1 == 0));	
+        System.out.println("pythagoreanTriples2================================================");
+        pythagoreanTriples2.forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
     }
-   
+    
+    
+    
     public static boolean isPerfectSquare(int n){
         return Math.sqrt(n) % 1 == 0;
     }

@@ -31,9 +31,12 @@ public class WordCount {
     }
 
     public static int countWords(String s) {
+    	// 使用以下會發生重複計算的問題，必須實作 Spliterator
         //Stream<Character> stream = IntStream.range(0, s.length())
         //                                    .mapToObj(SENTENCE::charAt).parallel();
         Spliterator<Character> spliterator = new WordCounterSpliterator(s);
+        
+        // true 代表要創建一個 parrallel stream
         Stream<Character> stream = StreamSupport.stream(spliterator, true);
 
         return countWords(stream);
@@ -59,10 +62,11 @@ public class WordCount {
             if (Character.isWhitespace(c)) {
                 return lastSpace ? this : new WordCounter(counter, true);
             } else {
-                return lastSpace ? new WordCounter(counter+1, false) : this;
+                return lastSpace ? new WordCounter(counter + 1, false) : this;
             }
         }
-
+        
+        // combine two wordCounter to 1 by summing their internal counter
         public WordCounter combine(WordCounter wordCounter) {
             return new WordCounter(counter + wordCounter.counter, wordCounter.lastSpace);
         }
@@ -86,7 +90,8 @@ public class WordCount {
             action.accept(string.charAt(currentChar++));
             return currentChar < string.length();
         }
-
+        
+        // 定義資料如何疊代
         @Override
         public Spliterator<Character> trySplit() {
             int currentSize = string.length() - currentChar;

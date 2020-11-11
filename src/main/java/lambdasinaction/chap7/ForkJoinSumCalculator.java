@@ -31,10 +31,21 @@ public class ForkJoinSumCalculator extends RecursiveTask<Long> {
             return computeSequentially();
         }
         ForkJoinSumCalculator leftTask = new ForkJoinSumCalculator(numbers, start, start + length/2);
+        
+        // Asynchronously execute the newly created subtask using 
+        // another thread of the ForkJoinPool
         leftTask.fork();
         ForkJoinSumCalculator rightTask = new ForkJoinSumCalculator(numbers, start + length/2, end);
+        
+        //Execute this second subtask synchronously, potentially allowing further recursive splits
         Long rightResult = rightTask.compute();
+        
+        // Read the result of the first subtask or wait for it
+        // if it isn't ready.
         Long leftResult = leftTask.join();
+        
+        // The result of this task is the combination of the results
+        // of the two subtasks.
         return leftResult + rightResult;
     }
 

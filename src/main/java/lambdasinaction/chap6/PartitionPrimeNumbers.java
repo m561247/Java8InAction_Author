@@ -3,16 +3,17 @@ package lambdasinaction.chap6;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
-
+import static java.util.Comparator.*; 
+import static java.util.stream.Collector.*;
 import static java.util.stream.Collectors.*;
 import static java.util.stream.Collector.Characteristics.*;
 
 public class PartitionPrimeNumbers {
 
     public static void main(String ... args) {
-        System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimes(100));
+//        System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimes(100));
         System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimesWithCustomCollector(100));
-
+        
     }
 
     public static Map<Boolean, List<Integer>> partitionPrimes(int n) {
@@ -31,9 +32,9 @@ public class PartitionPrimeNumbers {
     }
 
     public static boolean isPrime(List<Integer> primes, Integer candidate) {
-        double candidateRoot = Math.sqrt((double) candidate);
-        //return takeWhile(primes, i -> i <= candidateRoot).stream().noneMatch(i -> candidate % i == 0);
-        return primes.stream().takeWhile(i -> i <= candidateRoot).noneMatch(i -> candidate % i == 0);
+        int candidateRoot = (int) Math.sqrt((double) candidate);
+        return takeWhile(primes, i -> i <= candidateRoot).stream().noneMatch(i -> candidate % i == 0);
+//        return primes.stream().takeWhile(i -> i <= candidateRoot).noneMatch(i -> candidate % i == 0);
     }
 /*
     public static <A> List<A> takeWhile(List<A> list, Predicate<A> p) {
@@ -51,7 +52,7 @@ public class PartitionPrimeNumbers {
             implements Collector<Integer, Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> {
 
         @Override
-        public Supplier<Map<Boolean, List<Integer>>> supplier() {
+        public Supplier<Map<Boolean, List<Integer>>> supplier() { // 初始化容器
             return () -> new HashMap<Boolean, List<Integer>>() {{
                 put(true, new ArrayList<Integer>());
                 put(false, new ArrayList<Integer>());
@@ -59,7 +60,7 @@ public class PartitionPrimeNumbers {
         }
 
         @Override
-        public BiConsumer<Map<Boolean, List<Integer>>, Integer> accumulator() {
+        public BiConsumer<Map<Boolean, List<Integer>>, Integer> accumulator() { // 累加器
             return (Map<Boolean, List<Integer>> acc, Integer candidate) -> {
                 acc.get( isPrime( acc.get(true),
                         candidate) )
@@ -102,5 +103,16 @@ public class PartitionPrimeNumbers {
                             map1.get(true).addAll(map2.get(true));
                             map1.get(false).addAll(map2.get(false));
                         });
+    }
+    
+    public static <A> List<A> takeWhile(List<A> list, Predicate<A> p){
+    	int i = 0;
+    	for (A item : list) {
+    		if (!p.test(item)) {
+    			return list.subList(0, i);
+    		}
+    		i++;
+    	}
+    	return list;
     }
 }
