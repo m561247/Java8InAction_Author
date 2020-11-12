@@ -18,16 +18,22 @@ public class AsyncShop {
     }
 
     public Future<Double> getPrice(String product) {
-/*
+/*		
         CompletableFuture<Double> futurePrice = new CompletableFuture<>();
         new Thread( () -> {
                     try {
                         double price = calculatePrice(product);
+                        
+                        // set the value returned by the long comoutation on the Future 
+                        // when it becomes available
                         futurePrice.complete(price);
                     } catch (Exception ex) {
                         futurePrice.completeExceptionally(ex);
                     }
         }).start();
+        
+        // return the Future without waiting for the computation of the result 
+        // it contains to be completed
         return futurePrice;
 */
         return CompletableFuture.supplyAsync(() -> calculatePrice(product));
@@ -35,7 +41,7 @@ public class AsyncShop {
 
     private double calculatePrice(String product) {
         delay();
-        if (true) throw new RuntimeException("product not available");
+        if (false) throw new RuntimeException("product not available");
         return format(random.nextDouble() * product.charAt(0) + product.charAt(1));
     }
 

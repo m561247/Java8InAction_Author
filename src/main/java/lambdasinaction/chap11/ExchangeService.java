@@ -2,6 +2,8 @@ package lambdasinaction.chap11;
 
 import static lambdasinaction.chap11.Util.delay;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ExchangeService {
 
     public enum Money {
@@ -22,5 +24,9 @@ public class ExchangeService {
         delay();
         return destination.rate / source.rate;
     }
-
+    
+    // combine future
+    public static void main(String[] args) {
+    	
+	}
 }
