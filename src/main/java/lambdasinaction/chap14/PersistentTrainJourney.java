@@ -26,9 +26,9 @@ public class PersistentTrainJourney {
         // at the end of the already altered tj1. This will cause a
         // StackOverflowError from the endless visit() recursive calls on
         // the tj2 part of the twice altered tj1.
-        /*TrainJourney linked2 = link(tj1, tj2);
-        visit(linked2, tj -> { System.out.print(tj.price + " - "); });
-        System.out.println();*/
+//        TrainJourney linked2 = link(tj1, tj2);
+//        visit(linked2, tj -> { System.out.print(tj.price + " - "); });
+//        System.out.println();
     }
 
     static class TrainJourney {

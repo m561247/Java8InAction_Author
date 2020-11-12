@@ -21,7 +21,8 @@ public class LazyLists {
         int prime_two = primes(numbers).head();
         int prime_three = primes(numbers).tail().head();
         int prime_five = primes(numbers).tail().tail().head();
-        System.out.println(prime_two + " " + prime_three + " " + prime_five);
+        int prime_seven = primes(numbers).tail().tail().tail().head();
+        System.out.println(prime_two + " " + prime_three + " " + prime_five + " " + prime_seven);
 
         // this will run until a stackoverflow occur because Java does not
         // support tail call elimination
